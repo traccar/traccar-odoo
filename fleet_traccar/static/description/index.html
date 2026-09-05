@@ -1,0 +1,51 @@
+<section class="container" style="padding:40px 24px">
+  <div class="text-center" style="margin-bottom:32px">
+    <img src="icon.png" alt="Traccar" width="90" height="90"/>
+    <h1 style="margin-top:16px;color:#263238">Traccar Fleet</h1>
+    <p style="font-size:22px;color:#455a64">GPS tracking data alongside your vehicle records.</p>
+    <p>Free and open source · Odoo 19 Community · LGPL-3</p>
+  </div>
+  <p style="font-size:18px">Connect your Traccar server to Odoo Fleet. Import devices, link them to vehicles,
+    and see the latest position, connection status, speed, and accumulated distance.</p>
+  <div class="row" style="margin-top:24px;margin-bottom:24px">
+    <div class="col-md-4"><h3>Connect</h3><p>Configure a Traccar connection for each company, using an API token or account credentials.</p></div>
+    <div class="col-md-4"><h3>Link</h3><p>Choose which Fleet vehicle belongs to each imported device. Vehicle creation stays under your control.</p></div>
+    <div class="col-md-4"><h3>Keep updated</h3><p>Refresh manually or use the scheduled synchronization, which runs every five minutes by default.</p></div>
+  </div>
+  <h2 style="margin-top:40px">Your devices, in Fleet</h2>
+  <p>See vehicle links, connection status, GPS fix time, speed in km/h, and total distance in one list.</p>
+  <img src="devices.png" alt="Traccar device list in Odoo Fleet with fictional demonstration vehicles" class="img-fluid rounded border"/>
+  <h2 style="margin-top:40px">A tracking snapshot for each vehicle</h2>
+  <p>Inspect coordinates, GPS validity, last contact, ignition when available, and mileage. Open the selected device in your Traccar web app.</p>
+  <img src="device.png" alt="Traccar device details with vehicle linking and optional odometer synchronization" class="img-fluid rounded border"/>
+  <p class="text-muted" style="margin-top:12px">Screenshots show fictional demonstration data.</p>
+  <h2 style="margin-top:40px">Optional odometer synchronization</h2>
+  <p>Odometer updates are disabled by default. After verifying Traccar's total distance, set a calibration offset and enable updates per vehicle.
+    Readings are converted to the vehicle's kilometer or mile unit. Only increases are recorded; repeated imports do not duplicate readings.</p>
+  <h2 style="margin-top:40px">Get started</h2>
+  <ol>
+    <li>Install Traccar Fleet on Odoo 19 Community with the Fleet app.</li>
+    <li>As an Odoo system administrator, open Fleet → Traccar → Servers.</li>
+    <li>Enter the API server URL, browser URL, and a token or username and password.</li>
+    <li>Click Sync now, then open Fleet → Traccar → Devices to link vehicles.</li>
+  </ol>
+  <h2 style="margin-top:40px">Requirements and scope</h2>
+  <ul>
+    <li>A running Traccar server, reachable from Odoo, and an account permitted to read the intended devices.</li>
+    <li>Odoo 19 Community on a deployment that supports Python add-ons, plus the Python requests package.</li>
+    <li>Odoo Online does not support this Python add-on. Other Odoo major versions and Enterprise-specific features have not been tested.</li>
+    <li>This module synchronizes the latest snapshot. It does not provide a live map, trip reports, event history, or device commands.</li>
+    <li>Offline devices may show old positions and speeds. Check the last contact and GPS fix timestamps.</li>
+    <li>Traccar total distance may differ from a physical odometer. Counter resets and vehicle unit changes require manual review.</li>
+  </ul>
+  <h2 style="margin-top:40px">Data and access</h2>
+  <p>The connector sends authentication credentials to your configured Traccar API and reads device and position data.
+    It stores connection credentials and tracking snapshots in your Odoo database. No Fleet records are written back to Traccar.
+    Opening a device in the browser passes its identifier to your configured Traccar web application.</p>
+  <p>Connections and imported devices are scoped to Odoo companies. Fleet officers can view devices in their allowed companies;
+    Fleet administrators can link vehicles and synchronize. Only Odoo system administrators can configure connections and read credential fields.
+    Use HTTPS and a dedicated Traccar account for deployment.</p>
+  <p>No activation key or additional analytics service is used. GPS history remains in Traccar.</p>
+  <h2 style="margin-top:40px">Contact</h2>
+  <p>For questions, contact <a href="mailto:support@traccar.org">support@traccar.org</a>. This is a free community add-on; no support response time is promised.</p>
+</section>

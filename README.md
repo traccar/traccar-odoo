@@ -52,3 +52,18 @@ connection and addons-path options depend on your Odoo deployment.
 ## License
 
 [LGPL-3.0](LICENSE). The accompanying GPL-3.0 text is in [COPYING](COPYING).
+
+## Odoo Apps listing
+
+Store metadata lives in `fleet_traccar/__manifest__.py`. The description, Traccar
+icon, and screenshots are in `fleet_traccar/static/description/`. Screenshots were
+captured from a separate Odoo database with fictional vehicles and positions.
+
+The listing is free, targets Odoo 19 Community, and uses Traccar's public support
+contact. Listing assets do not contain test credentials or real tracking data.
+
+To publish, register this repository and its Odoo 19-compatible branch through an
+Odoo publisher account at https://apps.odoo.com/apps/upload. Check the scan output
+and preview before publishing. The repository's listing assets do not by
+themselves create a store listing. Follow the current vendor guidelines:
+https://apps.odoo.com/apps/vendor-guidelines.
