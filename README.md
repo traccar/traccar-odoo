@@ -13,8 +13,7 @@ and optionally records calibrated odometer readings.
 - Links to the selected device in the Traccar web app
 
 See [the module documentation](fleet_traccar/README.md) for configuration,
-permissions, and limitations. This is an initial integration; live maps and
-trip/event history are not included.
+permissions, and limitations.
 
 ## Installation
 
@@ -24,18 +23,9 @@ and Python `requests`.
 
 For Docker, mount the repository at `/mnt/extra-addons` in an Odoo 19 container.
 Configure connections in **Fleet → Traccar → Servers**, sync, then link vehicles
-in **Fleet → Traccar → Devices**. Keep credentials in Odoo, outside this repository.
+in **Fleet → Traccar → Devices**.
 
 ## Development
-
-```text
-fleet_traccar/
-  models/traccar.py       Connection, device sync, and Fleet integration
-  views/traccar.xml       Forms, lists, and menus
-  security/              Access controls and company rules
-  data/cron.xml          Scheduled synchronization
-  tests/test_traccar.py  Odoo integration tests
-```
 
 Restart Odoo after Python changes. Upgrade the module after model, view, or data
 changes. Run the tests against a disposable Odoo database with Fleet installed:
@@ -52,18 +42,3 @@ connection and addons-path options depend on your Odoo deployment.
 ## License
 
 [LGPL-3.0](LICENSE). The accompanying GPL-3.0 text is in [COPYING](COPYING).
-
-## Odoo Apps listing
-
-Store metadata lives in `fleet_traccar/__manifest__.py`. The description, Traccar
-icon, and screenshots are in `fleet_traccar/static/description/`. Screenshots were
-captured from a separate Odoo database with fictional vehicles and positions.
-
-The listing is free, targets Odoo 19 Community, and uses Traccar's public support
-contact. Listing assets do not contain test credentials or real tracking data.
-
-To publish, register this repository and its Odoo 19-compatible branch through an
-Odoo publisher account at https://apps.odoo.com/apps/upload. Check the scan output
-and preview before publishing. The repository's listing assets do not by
-themselves create a store listing. Follow the current vendor guidelines:
-https://apps.odoo.com/apps/vendor-guidelines.
