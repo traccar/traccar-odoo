@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+server_fleet,Traccar server read,model_traccar_server,fleet.fleet_group_user,1,0,0,0
+server_admin,Traccar server setup,model_traccar_server,base.group_system,1,1,1,1
+device_fleet,Traccar device read,model_traccar_device,fleet.fleet_group_user,1,0,0,0
+device_manager,Traccar device manage,model_traccar_device,fleet.fleet_group_manager,1,1,1,1

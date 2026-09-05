@@ -1,0 +1,60 @@
+<odoo>
+  <record id="server_list" model="ir.ui.view"><field name="name">traccar.server.list</field><field name="model">traccar.server</field><field name="arch" type="xml">
+    <list><field name="name"/><field name="url"/><field name="company_id" groups="base.group_multi_company"/><field name="last_sync"/><field name="last_error"/></list>
+  </field></record>
+  <record id="server_form" model="ir.ui.view"><field name="name">traccar.server.form</field><field name="model">traccar.server</field><field name="arch" type="xml">
+    <form><header><button name="action_sync" string="Sync now" type="object" class="btn-primary" groups="fleet.fleet_group_manager"/></header><sheet>
+      <group><group><field name="name"/><field name="active"/><field name="company_id" groups="base.group_multi_company"/><field name="url"/><field name="web_url"/></group>
+      <group string="Authentication" groups="base.group_system"><field name="username"/><field name="password" password="True"/><field name="token" password="True"/></group></group>
+      <group string="Synchronization"><field name="last_sync"/><field name="last_error"/></group>
+      <field name="device_ids" readonly="1"><list><field name="name"/><field name="unique_id"/><field name="vehicle_id"/><field name="status" widget="badge"/><field name="position_time"/></list></field>
+    </sheet></form>
+  </field></record>
+  <record id="device_list" model="ir.ui.view"><field name="name">traccar.device.list</field><field name="model">traccar.device</field><field name="arch" type="xml">
+    <list create="0" decoration-muted="not available">
+      <field name="name"/><field name="unique_id"/><field name="vehicle_id"/><field name="status" widget="badge" decoration-success="status == 'online'" decoration-muted="status == 'offline'"/>
+      <field name="position_time"/><field name="speed_kmh"/><field name="distance_km"/><field name="available" optional="hide"/><field name="server_id" optional="hide"/>
+    </list>
+  </field></record>
+  <record id="device_search" model="ir.ui.view"><field name="name">traccar.device.search</field><field name="model">traccar.device</field><field name="arch" type="xml">
+    <search><field name="name"/><field name="unique_id"/><field name="vehicle_id"/>
+      <filter name="unlinked" string="Unlinked" domain="[('vehicle_id','=',False)]"/>
+      <filter name="online" string="Online" domain="[('status','=','online')]"/>
+      <filter name="no_position" string="No position" domain="[('position_time','=',False)]"/>
+      <group><filter name="server" string="Server" context="{'group_by':'server_id'}"/></group>
+    </search>
+  </field></record>
+  <record id="device_form" model="ir.ui.view"><field name="name">traccar.device.form</field><field name="model">traccar.device</field><field name="arch" type="xml">
+    <form create="0"><header>
+      <button name="action_sync" string="Sync now" type="object" class="btn-primary" groups="fleet.fleet_group_manager"/>
+      <button name="action_open_traccar" string="Open in Traccar" type="object"/>
+    </header><sheet>
+      <div class="oe_title"><h1><field name="name"/></h1></div>
+      <div role="status" class="alert alert-warning" invisible="available">This device is no longer available to the configured Traccar account. Displayed data is the last saved snapshot.</div>
+      <group><group string="Vehicle link"><field name="company_id" invisible="1"/><field name="vehicle_id" domain="[('company_id','=',company_id)]" options="{'no_create': True}"/>
+        <field name="server_id"/><field name="unique_id"/><field name="remote_id"/><field name="available"/></group>
+        <group string="Connection"><field name="status" widget="badge"/><field name="last_update"/><field name="position_time"/><field name="valid"/></group></group>
+      <div role="status" class="alert alert-info" invisible="position_time">Traccar has no saved position for this device yet.</div>
+      <group invisible="not position_time"><group string="Latest position"><field name="latitude"/><field name="longitude"/><field name="address"/><field name="speed_kmh"/><field name="ignition"/></group>
+        <group string="Mileage"><field name="has_distance" invisible="1"/><field name="distance_km" invisible="not has_distance"/>
+          <field name="sync_odometer"/><field name="odometer_offset_km" invisible="not sync_odometer"/>
+          <div colspan="2" class="text-muted">Odometer updates are optional. Verify the total distance and offset before enabling. Readings are converted to the vehicle's unit and only increases are recorded.</div>
+        </group></group>
+    </sheet></form>
+  </field></record>
+  <record id="server_action" model="ir.actions.act_window"><field name="name">Traccar Servers</field><field name="res_model">traccar.server</field><field name="view_mode">list,form</field></record>
+  <record id="device_action" model="ir.actions.act_window"><field name="name">Traccar Devices</field><field name="res_model">traccar.device</field><field name="view_mode">list,form</field>
+    <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Connect your Traccar server</p><p>Add a server under Fleet → Traccar → Servers, then click Sync now to import devices.</p></field>
+  </record>
+  <menuitem id="menu_traccar" name="Traccar" parent="fleet.menu_root" sequence="30" groups="fleet.fleet_group_user"/>
+  <menuitem id="menu_devices" name="Devices" parent="menu_traccar" action="device_action" sequence="1"/>
+  <menuitem id="menu_servers" name="Servers" parent="menu_traccar" action="server_action" sequence="2" groups="fleet.fleet_group_manager"/>
+  <record id="vehicle_form" model="ir.ui.view"><field name="name">fleet.vehicle.traccar</field><field name="model">fleet.vehicle</field><field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+    <field name="arch" type="xml"><xpath expr="//notebook" position="inside">
+      <page string="Traccar" name="traccar" groups="fleet.fleet_group_user">
+        <p class="text-muted">Link a device from Fleet → Traccar → Devices to display its tracking data here.</p>
+        <field name="traccar_device_ids" readonly="1"><list create="0" delete="0"><field name="name"/><field name="status" widget="badge"/><field name="position_time"/><field name="latitude"/><field name="longitude"/><field name="speed_kmh"/><field name="distance_km"/></list></field>
+      </page>
+    </xpath></field>
+  </record>
+</odoo>
